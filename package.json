@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@notionhq/client": "^2.2.15",
     "@types/adm-zip": "^0.5.6",
     "adm-zip": "^0.5.16",
     "axios": "^1.7.7",

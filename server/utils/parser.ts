@@ -1,5 +1,5 @@
 
-interface Transaction {
+export interface Transaction {
   datetime: Date
   category: string
   counterparty: string
