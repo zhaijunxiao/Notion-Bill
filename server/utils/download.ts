@@ -3,7 +3,6 @@ import  POP3Command, { Integer }  from 'node-pop3'
 import { simpleParser } from 'mailparser'
 import AdmZip from 'adm-zip'
 import iconv from 'iconv-lite'
-import axios from 'axios'
 import { request } from 'undici'
 
 
@@ -59,21 +58,6 @@ export const downloadWechatBillAttachment = async (client: POP3Command, emailId:
       
     } catch (error) {
         console.error('下载微信账单时发生错误:', error)
-        if (axios.isAxiosError(error)) {
-            console.error('请求详情:', {
-                status: error.response?.status,
-                statusText: error.response?.statusText,
-                headers: error.response?.headers
-            })
-        }
-        // 添加更详细的错误信息
-        if (error instanceof Error) {
-            console.error('错误详情:', {
-                message: error.message,
-                stack: error.stack,
-                name: error.name
-            })
-        }
         throw error
     }
 }

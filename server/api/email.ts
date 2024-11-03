@@ -1,14 +1,21 @@
 import POP3Command from 'node-pop3'
 import { simpleParser } from 'mailparser'
+import { getPop3Server } from '../utils/pop3'
 
 export default defineEventHandler(async (event) => {
   try {
+
+    const { email, authCode } = await readBody(event)
+    console.log("start get email, email:{}", email)
+
+    const pop3Server = getPop3Server(email)
+    
     const client = new POP3Command({
-      host: 'pop.163.com', // 邮箱服务器地址
+      host: pop3Server, // 邮箱服务器地址
       port: 995, // POP3 端口，通常是 995(SSL)
       tls: true,
-      user: 'zhjx_bill@163.com', // 邮箱账号
-      password: 'JMmPJb7FujdQaq9K', // 邮箱密码或授权码
+      user: email, // 邮箱账号
+      password: authCode, // 邮箱密码或授权码
       timeout: 60000  // 添加超时设置，60秒
     })
 
@@ -31,8 +38,7 @@ export default defineEventHandler(async (event) => {
       if (fromAddress.includes('service@mail.alipay.com') || 
           fromAddress.includes('wechatpay@tencent.com')) {
         targetEmails.push({
-          messageNumber: i,
-          uidl: uidlList[i - 1][0],  // 修复类型错误
+          uidl: uidlList[i - 1][0],
           from: fromAddress,
           subject: parsed.subject,
           date: parsed.date
@@ -41,11 +47,10 @@ export default defineEventHandler(async (event) => {
     }
 
     await client.QUIT()
-    console.log(targetEmails)
     return { code: 200, data: targetEmails }
     
-  } catch (error) {
-    console.error('获取邮件错误:', error)
-    return { code: 500, message: '获取邮件失败' }
+  } catch (error: any) {
+    console.log('获取邮件错误:', error.message)
+    return { code: 500, message: error.message }
   }
 }) 

@@ -99,13 +99,15 @@ export function parseWeChatBill(csvContent: string): Transaction[] {
 
       // 处理金额字段,移除¥符号并转换为数字
       const cleanAmount = amount.replace('¥', '').replace(',', '')
+      let transactionType = type === '/' ? '不计收支' : type
+  
       
       return {
         datetime: new Date(datetime),
         category,
         counterparty: counterparty.replace('/"', ''), // 清理引号
         description: description.replace('/"', ''),
-        type: type as '收入' | '支出' | '不计收支',
+        type: transactionType as '收入' | '支出' | '不计收支',
         amount: parseFloat(cleanAmount),
         paymentMethod: paymentMethod.replace('/"', ''),
         status,
