@@ -2,14 +2,14 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
-  "scripts": {
+ "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "preview": "npx nuxthub preview",
+    "deploy": "npx nuxthub deploy",
     "postinstall": "nuxt prepare",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
