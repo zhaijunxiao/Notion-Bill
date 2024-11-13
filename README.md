@@ -6,7 +6,8 @@
 
 # 原理图解
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f2decbcc-a96f-4fbb-82fc-b380382674b5/03cfe9c8-171f-42c1-b87a-43dbaeafdb4d/image.png)
+![image](https://github.com/user-attachments/assets/2ebaf4b4-1d2b-4d84-9a79-9820c8ac1e6f)
+
 
 
 
