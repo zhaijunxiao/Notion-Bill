@@ -8,9 +8,24 @@
 
 ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f2decbcc-a96f-4fbb-82fc-b380382674b5/03cfe9c8-171f-42c1-b87a-43dbaeafdb4d/image.png)
 
+
+
 # 使用教程
 
 1. 复制Notion 模板
 2. 创建Notion 集成
 3. 发送账单邮件
 4. 解析邮件并发送到notion
+
+
+# 服务启动
+
+```
+npm install 
+npm run build
+pm2 start ecosystem.config.cjs
+```
+
+
+
+
