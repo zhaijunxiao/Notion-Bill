@@ -4,6 +4,13 @@
       <div class="text-center">
         <h2 class="text-3xl font-bold text-gray-900">系统设置</h2>
         <p class="mt-2 text-sm text-gray-600">请填写邮箱和 Notion 相关配置</p>
+        <!-- 添加教程链接 -->
+        <a 
+          href="/tutorial" 
+          class="mt-2 inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
+        >
+          👉 查看使用教程
+        </a>
       </div>
       
       <div class="mt-8 space-y-6">
@@ -27,7 +34,7 @@
           <input 
             v-model="authCode" 
             id="authCode"
-            type="password" 
+            type="text" 
             class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="请输入邮箱授权码"
           >
@@ -38,7 +45,7 @@
           <input 
             v-model="notionToken" 
             id="notionToken"
-            type="password" 
+            type="text" 
             class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="请输入 Notion Token"
           >

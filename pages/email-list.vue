@@ -115,8 +115,9 @@ const showPasswordModal = ref(false)
 const password = ref('')
 const currentEmail = ref<EmailTop | null>(null)
 
-// 添加 store
+// 使用 store
 const settingsStore = useSettingsStore()
+// store 中的值会自动持久化，不需要额外的保存操作
 
 // 添加日志相关的类型和状态
 interface Log {
