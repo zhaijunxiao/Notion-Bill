@@ -1,0 +1,62 @@
+
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+name: CICD
+on:
+  push:
+    branches:
+      - main
+    
+jobs:
+  update-test-server:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+  
+    - name: Set up node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: npm build
+      run: | 
+        npm install
+        npm run build
+
+    - name: package
+      run: |
+        COMMIT_SHA=${GITHUB_SHA::7}
+        tar -czvf notion-bill-$COMMIT_SHA.tar.gz .output
+    
+
+    - name: Publish to SSH Server
+      env:
+        PRIVATE_KEY: ${{ secrets.PUBLISH_SERVER_KEY }}
+        REMOTE_HOST: ${{ secrets.PUBLISH_SERVER_HOST }}
+        REMOTE_USER: ${{ secrets.PUBLISH_SERVER_USER }}
+        REMOTE_PATH: ${{ secrets.PUBLISH_SERVER_PATH }}
+      run: |
+        echo "$PRIVATE_KEY" > private_key.pem
+        chmod 600 private_key.pem
+
+        COMMIT_SHA=${GITHUB_SHA::7}
+        echo "Uploading notion-bill-${COMMIT_SHA}.tar.gz to ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/notion-bill-${COMMIT_SHA}.tar.gz"
+        scp -i private_key.pem -o StrictHostKeyChecking=no notion-bill-${COMMIT_SHA}.tar.gz "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/notion-bill-${COMMIT_SHA}.tar.gz"
+    
+    # - name: Setup SSH
+    #   uses: webfactory/ssh-agent@v0.5.3
+    #   with:
+    #     ssh-private-key: ${{ secrets.PUBLISH_SERVER_KEY }}
+  
+
+    # - name: Execute command
+    #   run: |
+    #     COMMIT_SHA=${GITHUB_SHA::7}
+    #     REMOTE_FILE="/home/ubuntu/NotionBill/notion-bill-${COMMIT_SHA}.tar.gz"
+    #     echo "Deploying notion-bill-${COMMIT_SHA}.tar.gz to ${REMOTE_FILE}"
+    #     ssh -o StrictHostKeyChecking=no ${{secrets.PUBLISH_SERVER_USER}}@${{ secrets.PUBLISH_SERVER_HOST }} "bash  ~/deploy-notion-bill.sh '${REMOTE_FILE}'"
