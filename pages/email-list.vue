@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useSettingsStore } from '~/stores/settings'
 import { useMyEmailtopStore } from '~/stores/emailtop'
 import type { EmailTop } from '~/stores/emailtop'
@@ -173,21 +173,33 @@ const confirmSync = async () => {
   })
 
   const eventSource = new EventSource(`/api/sync_bill?${params.toString()}`)
+  
+  // 添加连接成功的处理
+  eventSource.onopen = () => {
+    console.log('SSE 连接已建立')
+  }
 
   eventSource.onmessage = (event) => {
     const log = JSON.parse(event.data)
     logs.value.unshift(log)
     
+    // 强制更新视图
+    nextTick(() => {
+      // 可以在这里添加滚动到顶部的逻辑
+    })
+    
     if (log.status === 'error' || (log.status === 'success' && log.message === '账单处理完成！')) {
       eventSource.close()
     }
   }
-
-  eventSource.onerror = () => {
+  
+  // 改进错误处理
+  eventSource.onerror = (error) => {
+    console.error('SSE 错误:', error)
     eventSource.close()
     logs.value.unshift({
       id: Date.now().toString(),
-      message: '连接中断',
+      message: 'SSE 连接错误',
       status: 'error',
       timestamp: new Date().toISOString()
     })

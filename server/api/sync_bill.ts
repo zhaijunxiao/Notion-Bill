@@ -25,6 +25,7 @@ export default defineEventHandler(async (event: H3Event) => {
       timestamp: new Date().toISOString()
     }
     event.node.res.write(`data: ${JSON.stringify(log)}\n\n`)
+    event.node.res.flushHeaders()
   }
 
   if (!uidl || !password || !email || !authCode || !notionToken || !databaseId) {
