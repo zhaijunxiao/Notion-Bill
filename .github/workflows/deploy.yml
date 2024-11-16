@@ -48,15 +48,15 @@ jobs:
         echo "Uploading notion-bill-${COMMIT_SHA}.tar.gz to ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/notion-bill-${COMMIT_SHA}.tar.gz"
         scp -i private_key.pem -o StrictHostKeyChecking=no notion-bill-${COMMIT_SHA}.tar.gz "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/notion-bill-${COMMIT_SHA}.tar.gz"
     
-    # - name: Setup SSH
-    #   uses: webfactory/ssh-agent@v0.5.3
-    #   with:
-    #     ssh-private-key: ${{ secrets.PUBLISH_SERVER_KEY }}
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.PUBLISH_SERVER_KEY }}
   
 
-    # - name: Execute command
-    #   run: |
-    #     COMMIT_SHA=${GITHUB_SHA::7}
-    #     REMOTE_FILE="/home/ubuntu/NotionBill/notion-bill-${COMMIT_SHA}.tar.gz"
-    #     echo "Deploying notion-bill-${COMMIT_SHA}.tar.gz to ${REMOTE_FILE}"
-    #     ssh -o StrictHostKeyChecking=no ${{secrets.PUBLISH_SERVER_USER}}@${{ secrets.PUBLISH_SERVER_HOST }} "bash  ~/deploy-notion-bill.sh '${REMOTE_FILE}'"
+    - name: Execute command
+      run: |
+        COMMIT_SHA=${GITHUB_SHA::7}
+        REMOTE_FILE="/home/ubuntu/NotionBill/notion-bill-${COMMIT_SHA}.tar.gz"
+        echo "Deploying notion-bill-${COMMIT_SHA}.tar.gz to ${REMOTE_FILE}"
+        ssh -o StrictHostKeyChecking=no ${{secrets.PUBLISH_SERVER_USER}}@${{ secrets.PUBLISH_SERVER_HOST }} "bash  ~/deploy-notion-bill.sh '${REMOTE_FILE}'"
