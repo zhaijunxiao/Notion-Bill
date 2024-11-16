@@ -36,7 +36,7 @@
         <!-- 右侧处理日志 -->
         <div class="bg-white rounded-lg shadow p-4">
           <h2 class="text-lg font-medium mb-4">处理日志</h2>
-          <div class="overflow-y-auto max-h-[calc(100vh-240px)]">
+          <div class="overflow-y-auto max-h-[calc(100vh-240px)]" ref="logListRef">
             <div v-if="logs.length" class="space-y-3">
               <div v-for="log in logs" :key="log.id" 
                 class="p-3 rounded-lg text-sm"
@@ -179,13 +179,16 @@ const confirmSync = async () => {
     console.log('SSE 连接已建立')
   }
 
+  const logListRef = ref<HTMLElement | null>(null)
+
   eventSource.onmessage = (event) => {
     const log = JSON.parse(event.data)
-    logs.value.unshift(log)
+    logs.value.push(log)
     
-    // 强制更新视图
     nextTick(() => {
-      // 可以在这里添加滚动到顶部的逻辑
+      if (logListRef.value) {
+        logListRef.value.scrollTop = logListRef.value.scrollHeight
+      }
     })
     
     if (log.status === 'error' || (log.status === 'success' && log.message === '账单处理完成！')) {

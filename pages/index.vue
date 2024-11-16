@@ -51,7 +51,13 @@
           开始导入账单
         </NuxtLink>
         <div>
-          <a href="#"  class="mt-2 inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline">👉 查看使用教程</a>
+          <a 
+            href="https://github.com/zhaijunxiao/Notion-Bill" 
+            target="_blank"
+            class="mt-2 inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            👉 查看使用教程
+          </a>
         </div>
       </div>
     </div>

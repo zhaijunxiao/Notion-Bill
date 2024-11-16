@@ -6,7 +6,8 @@
         <p class="mt-2 text-sm text-gray-600">请填写邮箱和 Notion 相关配置</p>
         <!-- 添加教程链接 -->
         <a 
-          href="/tutorial" 
+          href="https://github.com/zhaijunxiao/Notion-Bill" 
+          target="_blank"
           class="mt-2 inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
         >
           👉 查看使用教程
